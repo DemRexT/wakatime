@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pgd version="1" pg-version="18" default-schema="public">
+  <project name="wakatime">
+    <settings>
+      <naming convention="camelCase" tables="plural"></naming>
+      <defaults nullable="false" on-delete="restrict" on-update="restrict"></defaults>
+    </settings>
+  </project>
+  <roles></roles>
+  <tablespaces></tablespaces>
+  <extensions></extensions>
+  <sequences></sequences>
+  <schema name="public">
+    <table name="users">
+      <column name="id" type="integer" nullable="false">
+        <identity generated="by-default"></identity>
+      </column>
+      <column name="username" type="text" nullable="false"></column>
+      <column name="wakatime_login" type="text" nullable="false"></column>
+      <column name="wakatime_token" type="bytea" nullable="false"></column>
+      <column name="status_id" type="integer" nullable="false"></column>
+      <column name="created_at" type="timestamptz" nullable="false"></column>
+      <column name="last_synced_at" type="timestamptz"></column>
+      <column name="last_sync_error" type="text"></column>
+      <pk name="pk_User">
+        <column name="id"></column>
+      </pk>
+    </table>
+    <table name="stats">
+      <column name="id" type="bigint" nullable="false">
+        <identity generated="by-default"></identity>
+      </column>
+      <column name="user_id" type="int" nullable="false"></column>
+      <column name="period" type="text" nullable="false"></column>
+      <column name="period_start" type="date" nullable="false"></column>
+      <column name="period_end" type="date" nullable="false"></column>
+      <column name="total_seconds" type="bigint" nullable="false"></column>
+      <column name="daily_average_seconds" type="integer" nullable="false"></column>
+      <column name="fetched_at" type="timestamptz" nullable="false"></column>
+      <pk name="pk_stat">
+        <column name="id"></column>
+      </pk>
+      <fk name="fk_stat_1" to-table="users" on-delete="restrict" on-update="restrict">
+        <column name="user_id" references="id"></column>
+      </fk>
+    </table>
+  </schema>
+  <functions></functions>
+  <triggers></triggers>
+  <rules></rules>
+  <policies></policies>
+  <comments></comments>
+  <layouts>
+    <layout name="Default" default="true">
+      <entity schema="public" table="users" x="-460" y="-220"></entity>
+      <entity schema="public" table="stats" x="-60" y="-120"></entity>
+    </layout>
+  </layouts>
+</pgd>

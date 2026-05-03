@@ -4,8 +4,96 @@
 //lint:file-ignore U1000 ignore unused code, it's generated
 package db
 
+import (
+	"time"
+)
+
 var Columns = struct {
-}{}
+	Stat struct {
+		ID, UserID, Period, PeriodStart, PeriodEnd, TotalSeconds, DailyAverageSeconds, FetchedAt string
+
+		User string
+	}
+	User struct {
+		ID, Username, WakatimeLogin, WakatimeToken, StatusID, CreatedAt, LastSyncedAt, LastSyncError string
+	}
+}{
+	Stat: struct {
+		ID, UserID, Period, PeriodStart, PeriodEnd, TotalSeconds, DailyAverageSeconds, FetchedAt string
+
+		User string
+	}{
+		ID:                  "id",
+		UserID:              "user_id",
+		Period:              "period",
+		PeriodStart:         "period_start",
+		PeriodEnd:           "period_end",
+		TotalSeconds:        "total_seconds",
+		DailyAverageSeconds: "daily_average_seconds",
+		FetchedAt:           "fetched_at",
+
+		User: "User",
+	},
+	User: struct {
+		ID, Username, WakatimeLogin, WakatimeToken, StatusID, CreatedAt, LastSyncedAt, LastSyncError string
+	}{
+		ID:            "id",
+		Username:      "username",
+		WakatimeLogin: "wakatime_login",
+		WakatimeToken: "wakatime_token",
+		StatusID:      "status_id",
+		CreatedAt:     "created_at",
+		LastSyncedAt:  "last_synced_at",
+		LastSyncError: "last_sync_error",
+	},
+}
 
 var Tables = struct {
-}{}
+	Stat struct {
+		Name, Alias string
+	}
+	User struct {
+		Name, Alias string
+	}
+}{
+	Stat: struct {
+		Name, Alias string
+	}{
+		Name:  "stats",
+		Alias: "t",
+	},
+	User: struct {
+		Name, Alias string
+	}{
+		Name:  "users",
+		Alias: "t",
+	},
+}
+
+type Stat struct {
+	tableName struct{} `pg:"stats,alias:t,discard_unknown_columns"`
+
+	ID                  int64     `pg:"id,pk"`
+	UserID              int       `pg:"user_id,use_zero"`
+	Period              string    `pg:"period,use_zero"`
+	PeriodStart         time.Time `pg:"period_start,use_zero"`
+	PeriodEnd           time.Time `pg:"period_end,use_zero"`
+	TotalSeconds        int64     `pg:"total_seconds,use_zero"`
+	DailyAverageSeconds int       `pg:"daily_average_seconds,use_zero"`
+	FetchedAt           time.Time `pg:"fetched_at,use_zero"`
+
+	User *User `pg:"fk:user_id,rel:has-one"`
+}
+
+type User struct {
+	tableName struct{} `pg:"users,alias:t,discard_unknown_columns"`
+
+	ID            int        `pg:"id,pk"`
+	Username      string     `pg:"username,use_zero"`
+	WakatimeLogin string     `pg:"wakatime_login,use_zero"`
+	WakatimeToken []byte     `pg:"wakatime_token,use_zero"`
+	StatusID      int        `pg:"status_id,use_zero"`
+	CreatedAt     time.Time  `pg:"created_at,use_zero"`
+	LastSyncedAt  *time.Time `pg:"last_synced_at"`
+	LastSyncError *string    `pg:"last_sync_error"`
+}

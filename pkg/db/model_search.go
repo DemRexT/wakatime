@@ -5,6 +5,8 @@
 package db
 
 import (
+	"time"
+
 	"github.com/go-pg/pg/v10"
 	"github.com/go-pg/pg/v10/orm"
 )
@@ -48,4 +50,140 @@ type Searcher interface {
 
 	With(condition string, params ...interface{})
 	WithApply(a applier)
+}
+
+type StatSearch struct {
+	search
+
+	ID                  *int64
+	UserID              *int
+	Period              *string
+	PeriodStart         *time.Time
+	PeriodEnd           *time.Time
+	TotalSeconds        *int64
+	DailyAverageSeconds *int
+	FetchedAt           *time.Time
+	IDs                 []int64
+	PeriodILike         *string
+}
+
+func (ss *StatSearch) Apply(query *orm.Query) *orm.Query {
+	if ss == nil {
+		return query
+	}
+	if ss.ID != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.ID, ss.ID)
+	}
+	if ss.UserID != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.UserID, ss.UserID)
+	}
+	if ss.Period != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.Period, ss.Period)
+	}
+	if ss.PeriodStart != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.PeriodStart, ss.PeriodStart)
+	}
+	if ss.PeriodEnd != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.PeriodEnd, ss.PeriodEnd)
+	}
+	if ss.TotalSeconds != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.TotalSeconds, ss.TotalSeconds)
+	}
+	if ss.DailyAverageSeconds != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.DailyAverageSeconds, ss.DailyAverageSeconds)
+	}
+	if ss.FetchedAt != nil {
+		ss.where(query, Tables.Stat.Alias, Columns.Stat.FetchedAt, ss.FetchedAt)
+	}
+	if len(ss.IDs) > 0 {
+		Filter{Columns.Stat.ID, ss.IDs, SearchTypeArray, false}.Apply(query)
+	}
+	if ss.PeriodILike != nil {
+		Filter{Columns.Stat.Period, *ss.PeriodILike, SearchTypeILike, false}.Apply(query)
+	}
+
+	ss.apply(query)
+
+	return query
+}
+
+func (ss *StatSearch) Q() applier {
+	return func(query *orm.Query) (*orm.Query, error) {
+		if ss == nil {
+			return query, nil
+		}
+		return ss.Apply(query), nil
+	}
+}
+
+type UserSearch struct {
+	search
+
+	ID                 *int
+	Username           *string
+	WakatimeLogin      *string
+	WakatimeToken      []byte
+	StatusID           *int
+	CreatedAt          *time.Time
+	LastSyncedAt       *time.Time
+	LastSyncError      *string
+	IDs                []int
+	UsernameILike      *string
+	WakatimeLoginILike *string
+	LastSyncErrorILike *string
+}
+
+func (us *UserSearch) Apply(query *orm.Query) *orm.Query {
+	if us == nil {
+		return query
+	}
+	if us.ID != nil {
+		us.where(query, Tables.User.Alias, Columns.User.ID, us.ID)
+	}
+	if us.Username != nil {
+		us.where(query, Tables.User.Alias, Columns.User.Username, us.Username)
+	}
+	if us.WakatimeLogin != nil {
+		us.where(query, Tables.User.Alias, Columns.User.WakatimeLogin, us.WakatimeLogin)
+	}
+	if us.WakatimeToken != nil {
+		us.where(query, Tables.User.Alias, Columns.User.WakatimeToken, us.WakatimeToken)
+	}
+	if us.StatusID != nil {
+		us.where(query, Tables.User.Alias, Columns.User.StatusID, us.StatusID)
+	}
+	if us.CreatedAt != nil {
+		us.where(query, Tables.User.Alias, Columns.User.CreatedAt, us.CreatedAt)
+	}
+	if us.LastSyncedAt != nil {
+		us.where(query, Tables.User.Alias, Columns.User.LastSyncedAt, us.LastSyncedAt)
+	}
+	if us.LastSyncError != nil {
+		us.where(query, Tables.User.Alias, Columns.User.LastSyncError, us.LastSyncError)
+	}
+	if len(us.IDs) > 0 {
+		Filter{Columns.User.ID, us.IDs, SearchTypeArray, false}.Apply(query)
+	}
+	if us.UsernameILike != nil {
+		Filter{Columns.User.Username, *us.UsernameILike, SearchTypeILike, false}.Apply(query)
+	}
+	if us.WakatimeLoginILike != nil {
+		Filter{Columns.User.WakatimeLogin, *us.WakatimeLoginILike, SearchTypeILike, false}.Apply(query)
+	}
+	if us.LastSyncErrorILike != nil {
+		Filter{Columns.User.LastSyncError, *us.LastSyncErrorILike, SearchTypeILike, false}.Apply(query)
+	}
+
+	us.apply(query)
+
+	return query
+}
+
+func (us *UserSearch) Q() applier {
+	return func(query *orm.Query) (*orm.Query, error) {
+		if us == nil {
+			return query, nil
+		}
+		return us.Apply(query), nil
+	}
 }

@@ -7,7 +7,7 @@ CREATE TABLE "users" (
 	"created_at" timestamptz NOT NULL DEFAULT now(),
 	"last_synced_at" timestamptz,
 	"last_sync_error" text,
-	CONSTRAINT "pk_User" PRIMARY KEY("id")
+	CONSTRAINT "pk_users" PRIMARY KEY("id")
 );
 
 CREATE TABLE "stats" (
@@ -19,7 +19,7 @@ CREATE TABLE "stats" (
 	"total_seconds" bigint NOT NULL,
 	"daily_average_seconds" integer NOT NULL,
 	"fetched_at" timestamptz NOT NULL,
-	CONSTRAINT "pk_stat" PRIMARY KEY("id")
+	CONSTRAINT "pk_stats" PRIMARY KEY("id")
 );
 
 CREATE UNIQUE INDEX "uq_users_wakatime_login" ON "users" (
@@ -30,23 +30,14 @@ CREATE INDEX "ix_users_status_id" ON "users" (
 	"status_id"
 );
 
-CREATE UNIQUE INDEX "uq_stats_user_id" ON "stats" (
-	"user_id"
-);
-
 CREATE UNIQUE INDEX "uq_stats_period" ON "stats" (
-	"period"
-);
-
-CREATE UNIQUE INDEX "uq_stats_period_end" ON "stats" (
+	"period",
+	"user_id",
 	"period_end"
 );
 
 CREATE INDEX "ix_stats_user_id" ON "stats" (
-	"user_id"
-);
-
-CREATE INDEX "ix_stats_fetched_at" ON "stats" (
+	"user_id",
 	"fetched_at" DESC
 );
 

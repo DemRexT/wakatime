@@ -50,19 +50,13 @@
     <index name="ix_users_status_id" table="users" using="btree">
       <column name="status_id"></column>
     </index>
-    <index name="uq_stats_user_id" table="stats" unique="true" using="btree">
-      <column name="user_id"></column>
-    </index>
     <index name="uq_stats_period" table="stats" unique="true" using="btree">
       <column name="period"></column>
-    </index>
-    <index name="uq_stats_period_end" table="stats" unique="true" using="btree">
+      <column name="user_id"></column>
       <column name="period_end"></column>
     </index>
     <index name="ix_stats_user_id" table="stats" using="btree">
       <column name="user_id"></column>
-    </index>
-    <index name="ix_stats_fetched_at" table="stats" using="btree">
       <column name="fetched_at" order="desc"></column>
     </index>
   </schema>

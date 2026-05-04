@@ -4,7 +4,7 @@ CREATE TABLE "users" (
 	"wakatime_login" text NOT NULL,
 	"wakatime_token" bytea NOT NULL,
 	"status_id" integer NOT NULL,
-	"created_at" timestamptz NOT NULL,
+	"created_at" timestamptz NOT NULL DEFAULT now(),
 	"last_synced_at" timestamptz,
 	"last_sync_error" text,
 	CONSTRAINT "pk_User" PRIMARY KEY("id")
@@ -20,6 +20,34 @@ CREATE TABLE "stats" (
 	"daily_average_seconds" integer NOT NULL,
 	"fetched_at" timestamptz NOT NULL,
 	CONSTRAINT "pk_stat" PRIMARY KEY("id")
+);
+
+CREATE UNIQUE INDEX "uq_users_wakatime_login" ON "users" (
+	"wakatime_login"
+);
+
+CREATE INDEX "ix_users_status_id" ON "users" (
+	"status_id"
+);
+
+CREATE UNIQUE INDEX "uq_stats_user_id" ON "stats" (
+	"user_id"
+);
+
+CREATE UNIQUE INDEX "uq_stats_period" ON "stats" (
+	"period"
+);
+
+CREATE UNIQUE INDEX "uq_stats_period_end" ON "stats" (
+	"period_end"
+);
+
+CREATE INDEX "ix_stats_user_id" ON "stats" (
+	"user_id"
+);
+
+CREATE INDEX "ix_stats_fetched_at" ON "stats" (
+	"fetched_at" DESC
 );
 
 ALTER TABLE "stats" ADD CONSTRAINT "fk_stat_1" FOREIGN KEY ("user_id")

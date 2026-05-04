@@ -2,7 +2,7 @@
 <pgd version="1" pg-version="18" default-schema="public">
   <project name="wakatime">
     <settings>
-      <naming convention="camelCase" tables="plural"></naming>
+      <naming convention="snake_case" tables="plural"></naming>
       <defaults nullable="false" on-delete="restrict" on-update="restrict"></defaults>
     </settings>
   </project>
@@ -19,10 +19,10 @@
       <column name="wakatime_login" type="text" nullable="false"></column>
       <column name="wakatime_token" type="bytea" nullable="false"></column>
       <column name="status_id" type="integer" nullable="false"></column>
-      <column name="created_at" type="timestamptz" nullable="false"></column>
+      <column name="created_at" type="timestamptz" nullable="false" default="now()"></column>
       <column name="last_synced_at" type="timestamptz"></column>
       <column name="last_sync_error" type="text"></column>
-      <pk name="pk_User">
+      <pk name="pk_users">
         <column name="id"></column>
       </pk>
     </table>
@@ -37,13 +37,34 @@
       <column name="total_seconds" type="bigint" nullable="false"></column>
       <column name="daily_average_seconds" type="integer" nullable="false"></column>
       <column name="fetched_at" type="timestamptz" nullable="false"></column>
-      <pk name="pk_stat">
+      <pk name="pk_stats">
         <column name="id"></column>
       </pk>
       <fk name="fk_stat_1" to-table="users" on-delete="restrict" on-update="restrict">
         <column name="user_id" references="id"></column>
       </fk>
     </table>
+    <index name="uq_users_wakatime_login" table="users" unique="true" using="btree">
+      <column name="wakatime_login"></column>
+    </index>
+    <index name="ix_users_status_id" table="users" using="btree">
+      <column name="status_id"></column>
+    </index>
+    <index name="uq_stats_user_id" table="stats" unique="true" using="btree">
+      <column name="user_id"></column>
+    </index>
+    <index name="uq_stats_period" table="stats" unique="true" using="btree">
+      <column name="period"></column>
+    </index>
+    <index name="uq_stats_period_end" table="stats" unique="true" using="btree">
+      <column name="period_end"></column>
+    </index>
+    <index name="ix_stats_user_id" table="stats" using="btree">
+      <column name="user_id"></column>
+    </index>
+    <index name="ix_stats_fetched_at" table="stats" using="btree">
+      <column name="fetched_at" order="desc"></column>
+    </index>
   </schema>
   <functions></functions>
   <triggers></triggers>

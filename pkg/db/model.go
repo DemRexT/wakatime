@@ -82,7 +82,7 @@ type Stat struct {
 	DailyAverageSeconds int       `pg:"daily_average_seconds,use_zero"`
 	FetchedAt           time.Time `pg:"fetched_at,use_zero"`
 
-	User *User `pg:"fk:user_id,rel:has-one"`
+	User *User `pg:"fk:user_id"`
 }
 
 type User struct {

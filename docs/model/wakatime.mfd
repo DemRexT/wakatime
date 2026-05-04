@@ -1,11 +1,12 @@
 <Project xmlns:xsi="" xmlns:xsd="">
     <Name>wakatime.mfd</Name>
     <PackageNames>
-        <string></string>
+        <string>stats</string>
+        <string>users</string>
     </PackageNames>
     <Languages>
         <string>en</string>
     </Languages>
-    <GoPGVer>10</GoPGVer>
+    <GoPGVer>9</GoPGVer>
     <CustomTypes></CustomTypes>
 </Project>

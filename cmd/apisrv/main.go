@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -23,16 +22,15 @@ import (
 	"github.com/vmkteam/embedlog"
 )
 
-const appName = "apisrv"
+const appName = "wakatime"
 
 var (
-	fs                 = flag.NewFlagSetWithEnvPrefix(os.Args[0], strings.ToUpper(appName), 0)
-	flConfigPath       = fs.String("config", "config.toml", "Path to config file")
-	flVerbose          = fs.Bool("verbose", false, "enable debug output")
-	flJSONLogs         = fs.Bool("json", false, "enable json output")
-	flDev              = fs.Bool("dev", false, "enable dev mode")
-	flGenerateTSClient = fs.Bool("ts_client", false, "generate TypeScript vt rpc client and exit")
-	cfg                app.Config
+	fs           = flag.NewFlagSetWithEnvPrefix(os.Args[0], strings.ToUpper(appName), 0)
+	flConfigPath = fs.String("config", "config.toml", "Path to config file")
+	flVerbose    = fs.Bool("verbose", false, "enable debug output")
+	flJSONLogs   = fs.Bool("json", false, "enable json output")
+	flDev        = fs.Bool("dev", false, "enable dev mode")
+	cfg          app.Config
 )
 
 func main() {
@@ -78,20 +76,6 @@ func main() {
 
 	// create & run app
 	a := app.New(appName, sl, cfg, dbc, pgdb)
-
-	// enable vfs
-	if cfg.Server.EnableVFS {
-		err = a.RegisterVFS(cfg.VFS)
-		exitOnError(err)
-	}
-
-	// generate TS client from cmd flags
-	if *flGenerateTSClient {
-		b, er := a.VTTypeScriptClient()
-		exitOnError(er)
-		_, _ = fmt.Fprint(os.Stdout, string(b))
-		os.Exit(0)
-	}
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)

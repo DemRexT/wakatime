@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	"apisrv/pkg/app"
-	"apisrv/pkg/db"
+	"wakatime/pkg/app"
+	"wakatime/pkg/db"
 
 	"github.com/BurntSushi/toml"
 	"github.com/getsentry/sentry-go"

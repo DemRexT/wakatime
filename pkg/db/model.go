@@ -11,8 +11,6 @@ import (
 var Columns = struct {
 	Stat struct {
 		ID, UserID, Period, PeriodStart, PeriodEnd, TotalSeconds, DailyAverageSeconds, FetchedAt string
-
-		User string
 	}
 	User struct {
 		ID, Username, WakatimeLogin, WakatimeToken, StatusID, CreatedAt, LastSyncedAt, LastSyncError string
@@ -20,8 +18,6 @@ var Columns = struct {
 }{
 	Stat: struct {
 		ID, UserID, Period, PeriodStart, PeriodEnd, TotalSeconds, DailyAverageSeconds, FetchedAt string
-
-		User string
 	}{
 		ID:                  "id",
 		UserID:              "user_id",
@@ -31,8 +27,6 @@ var Columns = struct {
 		TotalSeconds:        "total_seconds",
 		DailyAverageSeconds: "daily_average_seconds",
 		FetchedAt:           "fetched_at",
-
-		User: "User",
 	},
 	User: struct {
 		ID, Username, WakatimeLogin, WakatimeToken, StatusID, CreatedAt, LastSyncedAt, LastSyncError string
@@ -81,8 +75,6 @@ type Stat struct {
 	TotalSeconds        int64     `pg:"total_seconds,use_zero"`
 	DailyAverageSeconds int       `pg:"daily_average_seconds,use_zero"`
 	FetchedAt           time.Time `pg:"fetched_at,use_zero"`
-
-	User *User `pg:"fk:user_id"`
 }
 
 type User struct {

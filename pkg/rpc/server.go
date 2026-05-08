@@ -3,7 +3,7 @@ package rpc
 import (
 	"net/http"
 
-	"apisrv/pkg/db"
+	"wakatime/pkg/db"
 
 	"github.com/vmkteam/embedlog"
 	zm "github.com/vmkteam/zenrpc-middleware"

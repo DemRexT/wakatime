@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"apisrv/pkg/db"
+	"wakatime/pkg/db"
 
 	"github.com/go-pg/pg/v10"
 	"github.com/vmkteam/embedlog"

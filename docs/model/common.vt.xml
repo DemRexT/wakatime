@@ -1,0 +1,53 @@
+<VTNamespace xmlns:xsi="" xmlns:xsd="">
+    <Name>common</Name>
+    <VTEntities>
+        <Entity Name="Stat" Mode="Full">
+            <TerminalPath>stats</TerminalPath>
+            <Attributes>
+                <Attribute Name="ID" AttrName="ID" SearchName="ID" Summary="true" Search="true" Max="0" Min="0" Required="false" Validate=""></Attribute>
+                <Attribute Name="UserID" AttrName="UserID" SearchName="UserID" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="Period" AttrName="Period" SearchName="PeriodILike" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="PeriodStart" AttrName="PeriodStart" SearchName="PeriodStart" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="PeriodEnd" AttrName="PeriodEnd" SearchName="PeriodEnd" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="TotalSeconds" AttrName="TotalSeconds" SearchName="TotalSeconds" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="DailyAverageSeconds" AttrName="DailyAverageSeconds" SearchName="DailyAverageSeconds" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="FetchedAt" AttrName="FetchedAt" SearchName="FetchedAt" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="IDs" SearchName="IDs" Summary="false" Search="true" Max="0" Min="0" Required="false" Validate=""></Attribute>
+            </Attributes>
+            <Template>
+                <Attribute Name="UserID" VTAttrName="UserID" List="true" Form="HTML_INPUT" Search="HTML_INPUT"></Attribute>
+                <Attribute Name="Period" VTAttrName="Period" List="true" Form="HTML_TEXT" Search="HTML_TEXT"></Attribute>
+                <Attribute Name="PeriodStart" VTAttrName="PeriodStart" List="true" Form="HTML_DATE" Search="HTML_DATE"></Attribute>
+                <Attribute Name="PeriodEnd" VTAttrName="PeriodEnd" List="true" Form="HTML_DATE" Search="HTML_DATE"></Attribute>
+                <Attribute Name="TotalSeconds" VTAttrName="TotalSeconds" List="true" Form="HTML_INPUT" Search="HTML_INPUT"></Attribute>
+                <Attribute Name="DailyAverageSeconds" VTAttrName="DailyAverageSeconds" List="true" Form="HTML_INPUT" Search="HTML_INPUT"></Attribute>
+                <Attribute Name="FetchedAt" VTAttrName="FetchedAt" List="true" Form="HTML_DATETIME" Search="HTML_DATETIME"></Attribute>
+                <Attribute Name="IDs" VTAttrName="IDs" List="false" Form="HTML_NONE" Search="HTML_SELECT"></Attribute>
+            </Template>
+        </Entity>
+        <Entity Name="User" Mode="Full">
+            <TerminalPath>users</TerminalPath>
+            <Attributes>
+                <Attribute Name="ID" AttrName="ID" SearchName="ID" Summary="true" Search="true" Max="0" Min="0" Required="false" Validate=""></Attribute>
+                <Attribute Name="Username" AttrName="Username" SearchName="UsernameILike" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="WakatimeLogin" AttrName="WakatimeLogin" SearchName="WakatimeLoginILike" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="WakatimeToken" AttrName="WakatimeToken" SearchName="WakatimeToken" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="StatusID" AttrName="StatusID" SearchName="StatusID" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="CreatedAt" AttrName="CreatedAt" SearchName="CreatedAt" Summary="true" Search="true" Max="0" Min="0" Required="true" Validate=""></Attribute>
+                <Attribute Name="LastSyncedAt" AttrName="LastSyncedAt" SearchName="LastSyncedAt" Summary="true" Search="true" Max="0" Min="0" Required="false" Validate=""></Attribute>
+                <Attribute Name="LastSyncError" AttrName="LastSyncError" SearchName="LastSyncErrorILike" Summary="true" Search="true" Max="0" Min="0" Required="false" Validate=""></Attribute>
+                <Attribute Name="IDs" SearchName="IDs" Summary="false" Search="true" Max="0" Min="0" Required="false" Validate=""></Attribute>
+            </Attributes>
+            <Template>
+                <Attribute Name="Username" VTAttrName="Username" List="true" Form="HTML_TEXT" Search="HTML_TEXT"></Attribute>
+                <Attribute Name="WakatimeLogin" VTAttrName="WakatimeLogin" List="true" Form="HTML_TEXT" Search="HTML_TEXT"></Attribute>
+                <Attribute Name="WakatimeToken" VTAttrName="WakatimeToken" List="true" Form="HTML_INPUT" Search="HTML_INPUT"></Attribute>
+                <Attribute Name="StatusID" VTAttrName="StatusID" List="true" Form="HTML_INPUT" Search="HTML_INPUT"></Attribute>
+                <Attribute Name="CreatedAt" VTAttrName="CreatedAt" List="true" Form="HTML_DATETIME" Search="HTML_DATETIME"></Attribute>
+                <Attribute Name="LastSyncedAt" VTAttrName="LastSyncedAt" List="true" Form="HTML_DATETIME" Search="HTML_DATETIME"></Attribute>
+                <Attribute Name="LastSyncError" VTAttrName="LastSyncError" List="true" Form="HTML_TEXT" Search="HTML_TEXT"></Attribute>
+                <Attribute Name="IDs" VTAttrName="IDs" List="false" Form="HTML_NONE" Search="HTML_SELECT"></Attribute>
+            </Template>
+        </Entity>
+    </VTEntities>
+</VTNamespace>

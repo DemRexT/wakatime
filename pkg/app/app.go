@@ -4,14 +4,13 @@ import (
 	"context"
 	"time"
 
-	"apisrv/pkg/db"
+	"wakatime/pkg/db"
 
 	"github.com/go-pg/pg/v10"
 	monitor "github.com/hypnoglow/go-pg-monitor"
 	"github.com/labstack/echo/v4"
 	"github.com/vmkteam/appkit"
 	"github.com/vmkteam/embedlog"
-	"github.com/vmkteam/zenrpc/v2"
 )
 
 type Config struct {
@@ -35,7 +34,7 @@ type App struct {
 	dbc     *pg.DB
 	mon     *monitor.Monitor
 	echo    *echo.Echo
-	vtsrv   *zenrpc.Server
+	// vtsrv   *zenrpc.Server
 }
 
 func New(appName string, sl embedlog.Logger, cfg Config, db db.DB, dbc *pg.DB) *App {

@@ -1,8 +1,7 @@
 <Project xmlns:xsi="" xmlns:xsd="">
     <Name>wakatime.mfd</Name>
     <PackageNames>
-        <string>stats</string>
-        <string>users</string>
+        <string>common</string>
     </PackageNames>
     <Languages>
         <string>en</string>

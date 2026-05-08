@@ -17,11 +17,12 @@ const (
 	StatusEnabled  = 1
 	StatusDisabled = 2
 	StatusDeleted  = 3
+	fieldStatusID  = "statusId"
 )
 
 var (
-	StatusFilter        = Filter{Field: "statusId", Value: []int{StatusEnabled, StatusDisabled}, SearchType: SearchTypeArray}
-	StatusEnabledFilter = Filter{Field: "statusId", Value: []int{StatusEnabled}, SearchType: SearchTypeArray}
+	StatusFilter        = Filter{Field: fieldStatusID, Value: []int{StatusEnabled, StatusDisabled}, SearchType: SearchTypeArray}
+	StatusEnabledFilter = Filter{Field: fieldStatusID, Value: []int{StatusEnabled}, SearchType: SearchTypeArray}
 )
 
 type SortDirection string

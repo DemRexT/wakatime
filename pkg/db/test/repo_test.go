@@ -29,39 +29,56 @@ func newTestDB(t *testing.T) *pg.DB {
 	return db
 }
 
-func TestUserInsertGetDelete(t *testing.T) {
+func TestCommonRepoUserInsertGetDelete(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skip db test in short mode")
+	}
+
 	ctx := context.Background()
 	dbo := newTestDB(t)
+	repo := db.NewCommonRepo(dbo)
 
-	user := &db.User{
+	user, err := repo.AddUser(ctx, &db.User{
 		Username:      "ivan",
 		WakatimeLogin: "ivanlogin",
-		WakatimeToken: []byte("waka_2352525"),
-		StatusID:      1,
-	}
-
-	_, err := dbo.ModelContext(ctx, user).Insert()
+		WakatimeToken: []byte("test_token"),
+		StatusID:      db.StatusEnabled,
+	})
 	if err != nil {
-		t.Fatalf("user failed: %v", err)
+		t.Fatalf("add user failed: %v", err)
 	}
 
-	got := &db.User{ID: user.ID}
-	err = dbo.ModelContext(ctx, got).WherePK().Select()
+	t.Cleanup(func() {
+		_, _ = dbo.ModelContext(ctx, &db.User{ID: user.ID}).WherePK().Delete()
+	})
+
+	got, err := repo.UserByID(ctx, user.ID, repo.FullUser())
 	if err != nil {
 		t.Fatalf("get user failed: %v", err)
 	}
-
+	if got == nil {
+		t.Fatal("expected user, got nil")
+	}
 	if got.Username != user.Username {
 		t.Fatalf("expected username %q, got %q", user.Username, got.Username)
 	}
 
-	_, err = dbo.ModelContext(ctx, user).WherePK().Delete()
+	deleted, err := repo.DeleteUser(ctx, user.ID)
 	if err != nil {
 		t.Fatalf("delete user failed: %v", err)
 	}
+	if !deleted {
+		t.Fatal("expected user to be deleted")
+	}
 
-	err = dbo.ModelContext(ctx, &db.User{ID: user.ID}).WherePK().Select()
-	if err == nil {
-		t.Fatalf("expected error after delete, got nil")
+	got, err = repo.UserByID(ctx, user.ID)
+	if err != nil {
+		t.Fatalf("get deleted user failed: %v", err)
+	}
+	if got == nil {
+		t.Fatal("expected deleted user to still exist with deleted status")
+	}
+	if got.StatusID != db.StatusDisabled {
+		t.Fatalf("expected status %d, got %d", db.StatusDisabled, got.StatusID)
 	}
 }

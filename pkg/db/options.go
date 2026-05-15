@@ -16,7 +16,6 @@ const (
 	// common statuses
 	StatusEnabled  = 1
 	StatusDisabled = 2
-	StatusDeleted  = 3
 	fieldStatusID  = "statusId"
 )
 

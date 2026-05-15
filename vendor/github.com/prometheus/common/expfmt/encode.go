@@ -20,10 +20,9 @@ import (
 
 	"github.com/munnerz/goautoneg"
 	dto "github.com/prometheus/client_model/go"
+	"github.com/prometheus/common/model"
 	"google.golang.org/protobuf/encoding/protodelim"
 	"google.golang.org/protobuf/encoding/prototext"
-
-	"github.com/prometheus/common/model"
 )
 
 // Encoder types encode metric families into an underlying wire protocol.

@@ -9,9 +9,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/vmkteam/zenrpc/v2/smd"
-
 	"github.com/gorilla/websocket"
+	"github.com/vmkteam/zenrpc/v2/smd"
 )
 
 type contextKey string

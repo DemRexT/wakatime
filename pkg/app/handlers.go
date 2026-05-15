@@ -6,13 +6,12 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 
-	"wakatime/pkg/rpc"
-
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/vmkteam/appkit"
 	"github.com/vmkteam/rpcgen/v2"
 	"github.com/vmkteam/zenrpc/v2"
+	"wakatime/pkg/rpc"
 )
 
 // runHTTPServer is a function that starts http listener using labstack/echo.

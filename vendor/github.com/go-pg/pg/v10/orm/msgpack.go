@@ -3,9 +3,8 @@ package orm
 import (
 	"reflect"
 
-	"github.com/vmihailenco/msgpack/v5"
-
 	"github.com/go-pg/pg/v10/types"
+	"github.com/vmihailenco/msgpack/v5"
 )
 
 func msgpackAppender(_ reflect.Type) types.AppenderFunc {

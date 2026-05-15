@@ -23,9 +23,8 @@ import (
 	"strings"
 
 	dto "github.com/prometheus/client_model/go"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	"github.com/prometheus/common/model"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type encoderOption struct {

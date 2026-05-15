@@ -3,11 +3,10 @@ package rpc
 import (
 	"net/http"
 
-	"wakatime/pkg/db"
-
 	"github.com/vmkteam/embedlog"
 	zm "github.com/vmkteam/zenrpc-middleware"
 	"github.com/vmkteam/zenrpc/v2"
+	"wakatime/pkg/db"
 )
 
 var (

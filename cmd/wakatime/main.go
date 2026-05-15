@@ -11,15 +11,14 @@ import (
 	"syscall"
 	"time"
 
-	"wakatime/pkg/app"
-	"wakatime/pkg/db"
-
 	"github.com/BurntSushi/toml"
 	"github.com/getsentry/sentry-go"
 	"github.com/go-pg/pg/v10"
 	"github.com/namsral/flag"
 	"github.com/vmkteam/appkit"
 	"github.com/vmkteam/embedlog"
+	"wakatime/pkg/app"
+	"wakatime/pkg/db"
 )
 
 const appName = "wakatime"

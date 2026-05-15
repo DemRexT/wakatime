@@ -16,12 +16,12 @@ const (
 	// common statuses
 	StatusEnabled  = 1
 	StatusDisabled = 2
-	fieldStatusID  = "statusId"
+	StatusDeleted  = 3
 )
 
 var (
-	StatusFilter        = Filter{Field: fieldStatusID, Value: []int{StatusEnabled, StatusDisabled}, SearchType: SearchTypeArray}
-	StatusEnabledFilter = Filter{Field: fieldStatusID, Value: []int{StatusEnabled}, SearchType: SearchTypeArray}
+	StatusFilter        = Filter{Field: Columns.User.StatusID, Value: []int{StatusEnabled, StatusDisabled, StatusDeleted}, SearchType: SearchTypeArray}
+	StatusEnabledFilter = Filter{Field: Columns.User.StatusID, Value: []int{StatusEnabled}, SearchType: SearchTypeArray}
 )
 
 type SortDirection string
@@ -110,7 +110,7 @@ func WithTable(table string) OpFunc {
 // EnabledOnly is a function that adds "statusId"=1 filter to query.
 func EnabledOnly() OpFunc {
 	return func(query *orm.Query) {
-		Filter{Field: "statusId", Value: StatusEnabled}.Apply(query)
+		Filter{Field: Columns.User.StatusID, Value: StatusEnabled}.Apply(query)
 	}
 }
 

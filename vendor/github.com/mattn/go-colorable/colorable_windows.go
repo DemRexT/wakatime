@@ -11,10 +11,10 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	syscall "golang.org/x/sys/windows"
 	"unsafe"
 
 	"github.com/mattn/go-isatty"
-	syscall "golang.org/x/sys/windows"
 )
 
 const (

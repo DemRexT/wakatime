@@ -4,10 +4,8 @@ go 1.25
 
 require (
 	github.com/BurntSushi/toml v1.6.0
-	github.com/brianvoe/gofakeit/v7 v7.14.1
 	github.com/getsentry/sentry-go v0.41.0
 	github.com/go-pg/pg/v10 v10.15.0
-	github.com/go-pg/pg/v9 v9.2.1
 	github.com/go-pg/urlstruct v1.0.1
 	github.com/hypnoglow/go-pg-monitor v1.2.0
 	github.com/hypnoglow/go-pg-monitor/gopgv10 v1.2.0

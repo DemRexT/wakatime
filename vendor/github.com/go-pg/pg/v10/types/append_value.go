@@ -9,9 +9,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/vmihailenco/bufpool"
+
 	"github.com/go-pg/pg/v10/internal"
 	"github.com/go-pg/pg/v10/pgjson"
-	"github.com/vmihailenco/bufpool"
 )
 
 var (

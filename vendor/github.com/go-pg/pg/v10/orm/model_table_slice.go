@@ -39,7 +39,7 @@ func (m *sliceTableModel) init(sliceType reflect.Type) {
 	}
 }
 
-// nolint
+//nolint
 func (*sliceTableModel) useQueryOne() {}
 
 func (m *sliceTableModel) IsNil() bool {

@@ -3,7 +3,6 @@
 // Modified BSD License license that can be found in
 // the LICENSE file.
 
-//go:build amd64 && !gccgo && !appengine
 // +build amd64,!gccgo,!appengine
 
 package hex
@@ -79,21 +78,17 @@ func Decode(dst, src []byte) (int, error) {
 //go:generate go run asm_gen.go
 
 // This function is implemented in hex_encode_amd64.s
-//
 //go:noescape
 func encodeAVX(dst *byte, src *byte, len uint64, alpha *byte)
 
 // This function is implemented in hex_encode_amd64.s
-//
 //go:noescape
 func encodeSSE(dst *byte, src *byte, len uint64, alpha *byte)
 
 // This function is implemented in hex_decode_amd64.s
-//
 //go:noescape
 func decodeAVX(dst *byte, src *byte, len uint64) (n uint64, ok bool)
 
 // This function is implemented in hex_decode_amd64.s
-//
 //go:noescape
 func decodeSSE(dst *byte, src *byte, len uint64) (n uint64, ok bool)

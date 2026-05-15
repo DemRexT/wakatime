@@ -11,13 +11,15 @@ import (
 	"sync"
 	"time"
 
+	"github.com/jinzhu/inflection"
+	"github.com/vmihailenco/tagparser"
+
+	"github.com/go-pg/zerochecker"
+
 	"github.com/go-pg/pg/v10/internal"
 	"github.com/go-pg/pg/v10/internal/pool"
 	"github.com/go-pg/pg/v10/pgjson"
 	"github.com/go-pg/pg/v10/types"
-	"github.com/go-pg/zerochecker"
-	"github.com/jinzhu/inflection"
-	"github.com/vmihailenco/tagparser"
 )
 
 const (
@@ -290,7 +292,7 @@ func (t *Table) addFields(typ reflect.Type, baseIndex []int) {
 	}
 }
 
-// nolint
+//nolint
 func (t *Table) newField(f reflect.StructField, index []int) *Field {
 	pgTag := tagparser.Parse(f.Tag.Get("pg"))
 
@@ -942,7 +944,7 @@ func (t *Table) mustM2MRelation(field *Field, pgTag *tagparser.Tag) bool {
 	return true
 }
 
-// nolint
+//nolint
 func (t *Table) tryRelationSlice(field *Field, pgTag *tagparser.Tag) bool {
 	if t.tryM2MRelation(field, pgTag) {
 		internal.Deprecated.Printf(

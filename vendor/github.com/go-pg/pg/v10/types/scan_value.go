@@ -27,7 +27,7 @@ type ScannerFunc func(reflect.Value, Reader, int) error
 
 var valueScanners []ScannerFunc
 
-// nolint
+//nolint
 func init() {
 	valueScanners = []ScannerFunc{
 		reflect.Bool:          scanBoolValue,

@@ -14,7 +14,7 @@ type scanValuesModel struct {
 
 var _ Model = scanValuesModel{}
 
-// nolint
+//nolint
 func Scan(values ...interface{}) scanValuesModel {
 	return scanValuesModel{
 		values: values,

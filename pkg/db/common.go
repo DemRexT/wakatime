@@ -198,7 +198,7 @@ func (cr CommonRepo) UpdateUser(ctx context.Context, user *User, ops ...OpFunc) 
 
 // DeleteUser set statusId to deleted in DB.
 func (cr CommonRepo) DeleteUser(ctx context.Context, id int) (deleted bool, err error) {
-	user := &User{ID: id, StatusID: StatusDisabled}
+	user := &User{ID: id, StatusID: StatusDeleted}
 
 	return cr.UpdateUser(ctx, user, WithColumns(Columns.User.StatusID))
 }

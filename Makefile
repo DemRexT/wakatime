@@ -1,4 +1,4 @@
--include Makefile.mk
+include Makefile.mk
 
 GOFLAGS=-mod=vendor
 
@@ -15,6 +15,7 @@ NAME := wakatime
 MAIN := ./cmd/${NAME}
 
 .PHONY: *
+
 
 init:
 	@cp -n Makefile.mk.dist Makefile.mk
@@ -53,7 +54,6 @@ run:
 
 generate:
 	@go generate ./pkg/rpc
-	#@go generate ./pkg/vt
 
 test:
 	@echo "Running tests"

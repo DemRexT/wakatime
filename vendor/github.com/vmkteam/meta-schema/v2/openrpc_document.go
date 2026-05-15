@@ -350,6 +350,7 @@ type JSONSchemaObject struct {
 // Always valid if true. Never valid if false. Is constant.
 type JSONSchemaBoolean bool
 
+//
 // --- Default ---
 //
 // {}

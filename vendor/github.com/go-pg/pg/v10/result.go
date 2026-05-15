@@ -21,7 +21,7 @@ type result struct {
 
 var _ Result = (*result)(nil)
 
-// nolint
+//nolint
 func (res *result) parse(b []byte) error {
 	res.affected = -1
 

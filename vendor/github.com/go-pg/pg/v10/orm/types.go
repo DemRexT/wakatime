@@ -1,6 +1,6 @@
 package orm
 
-// nolint
+//nolint
 const (
 	// Date / Time
 	pgTypeTimestamp   = "timestamp"           // Timestamp without a time zone

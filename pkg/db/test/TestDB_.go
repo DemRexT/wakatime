@@ -79,7 +79,7 @@ func TestCommonRepoUserInsertGetDelete(t *testing.T) {
 	if got == nil {
 		t.Fatal("expected deleted user to still exist with deleted status")
 	}
-	if got.StatusID != db.StatusDisabled {
-		t.Fatalf("expected status %d, got %d", db.StatusDisabled, got.StatusID)
+	if got.StatusID != db.StatusDeleted {
+		t.Fatalf("expected status %d, got %d", db.StatusDeleted, got.StatusID)
 	}
 }

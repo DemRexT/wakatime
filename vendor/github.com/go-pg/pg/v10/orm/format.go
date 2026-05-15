@@ -31,7 +31,7 @@ var (
 	_ types.ValueAppender = (*SafeQueryAppender)(nil)
 )
 
-// nolint
+//nolint
 func SafeQuery(query string, params ...interface{}) *SafeQueryAppender {
 	return &SafeQueryAppender{query, params}
 }

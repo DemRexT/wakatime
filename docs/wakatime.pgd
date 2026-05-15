@@ -25,6 +25,9 @@
       <pk name="pk_users">
         <column name="id"></column>
       </pk>
+      <fk name="fk_users_1" to-table="statuses" on-delete="restrict" on-update="restrict">
+        <column name="status_id" references="id"></column>
+      </fk>
     </table>
     <table name="stats">
       <column name="id" type="bigint" nullable="false">
@@ -44,12 +47,16 @@
         <column name="user_id" references="id"></column>
       </fk>
     </table>
-    <index name="uq_users_wakatime_login" table="users" unique="true" using="btree">
-      <column name="wakatime_login"></column>
-    </index>
-    <index name="ix_users_status_id" table="users" using="btree">
-      <column name="status_id"></column>
-    </index>
+    <table name="statuses">
+      <column name="id" type="integer" nullable="false">
+        <identity generated="by-default"></identity>
+      </column>
+      <column name="alias" type="text" nullable="false"></column>
+      <column name="title" type="text" nullable="false"></column>
+      <pk name="pk_statuses">
+        <column name="id"></column>
+      </pk>
+    </table>
     <index name="uq_stats_period" table="stats" unique="true" using="btree">
       <column name="period"></column>
       <column name="user_id"></column>
@@ -58,6 +65,15 @@
     <index name="ix_stats_user_id" table="stats" using="btree">
       <column name="user_id"></column>
       <column name="fetched_at" order="desc"></column>
+    </index>
+    <index name="uq_statuses_alias" table="statuses" unique="true" using="btree">
+      <column name="alias"></column>
+    </index>
+    <index name="uq_users_wakatime_login" table="users" unique="true" using="btree">
+      <column name="wakatime_login"></column>
+    </index>
+    <index name="ix_users_status_id" table="users" using="btree">
+      <column name="status_id"></column>
     </index>
   </schema>
   <functions></functions>
@@ -69,6 +85,7 @@
     <layout name="Default" default="true">
       <entity schema="public" table="users" x="-460" y="-220"></entity>
       <entity schema="public" table="stats" x="-60" y="-120"></entity>
+      <entity schema="public" table="statuses" x="60" y="-280"></entity>
     </layout>
   </layouts>
 </pgd>

@@ -2,6 +2,7 @@ package gopgv10
 
 import (
 	"github.com/go-pg/pg/v10"
+
 	monitor "github.com/hypnoglow/go-pg-monitor"
 )
 

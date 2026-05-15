@@ -13,9 +13,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/labstack/gommon/color"
 	"github.com/mattn/go-isatty"
 	"github.com/valyala/fasttemplate"
+
+	"github.com/labstack/gommon/color"
 )
 
 type (

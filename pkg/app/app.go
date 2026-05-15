@@ -15,57 +15,37 @@ import (
 
 type Config struct {
 	Database *pg.Options
-
-	Server struct {
-		Host string
-
-		Port int
-
+	Server   struct {
+		Host    string
+		Port    int
 		IsDevel bool
 	}
-
 	Sentry struct {
 		Environment string
-
-		DSN string
+		DSN         string
 	}
 }
 
 type App struct {
 	embedlog.Logger
-
 	appName string
-
-	cfg Config
-
-	db db.DB
-
-	dbc *pg.DB
-
-	mon *monitor.Monitor
-
-	echo *echo.Echo
-
+	cfg     Config
+	db      db.DB
+	dbc     *pg.DB
+	mon     *monitor.Monitor
+	echo    *echo.Echo
 	// vtsrv   *zenrpc.Server
-
 }
 
 func New(appName string, sl embedlog.Logger, cfg Config, db db.DB, dbc *pg.DB) *App {
 	a := &App{
-
 		appName: appName,
-
-		cfg: cfg,
-
-		db: db,
-
-		dbc: dbc,
-
-		echo: appkit.NewEcho(),
-
-		Logger: sl,
+		cfg:     cfg,
+		db:      db,
+		dbc:     dbc,
+		echo:    appkit.NewEcho(),
+		Logger:  sl,
 	}
-
 	return a
 }
 
@@ -73,15 +53,10 @@ func New(appName string, sl embedlog.Logger, cfg Config, db db.DB, dbc *pg.DB) *
 
 func (a *App) Run(ctx context.Context) error {
 	a.registerMetrics()
-
 	a.registerHandlers()
-
 	a.registerDebugHandlers()
-
 	a.registerAPIHandlers()
-
 	a.registerMetadata()
-
 	return a.runHTTPServer(ctx, a.cfg.Server.Host, a.cfg.Server.Port)
 }
 
@@ -89,11 +64,11 @@ func (a *App) Run(ctx context.Context) error {
 
 func (a *App) Shutdown(timeout time.Duration) error {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-
+	if a.mon != nil {
+		a.mon.Close()
+	}
 	defer cancel()
-
 	a.mon.Close()
-
 	return a.echo.Shutdown(ctx)
 }
 
@@ -101,26 +76,17 @@ func (a *App) Shutdown(timeout time.Duration) error {
 
 func (a *App) registerMetadata() {
 	opts := appkit.MetadataOpts{
-
-		HasPublicAPI: true,
-
+		HasPublicAPI:  true,
 		HasPrivateAPI: true,
-
 		DBs: []appkit.DBMetadata{
-
 			appkit.NewDBMetadata(a.cfg.Database.Database, a.cfg.Database.PoolSize, false),
 		},
-
 		Services: []appkit.ServiceMetadata{
-
 			// NewServiceMetadata("srv", MetadataServiceTypeAsync),
-
 		},
 	}
 
 	md := appkit.NewMetadataManager(opts)
-
 	md.RegisterMetrics()
-
 	a.echo.GET("/debug/metadata", md.Handler)
 }

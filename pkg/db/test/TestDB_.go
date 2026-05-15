@@ -3,9 +3,9 @@ package test
 import (
 	"context"
 	"testing"
+	"wakatime/pkg/db"
 
 	"github.com/go-pg/pg/v10"
-	"wakatime/pkg/db"
 )
 
 func newTestDB(t *testing.T) *pg.DB {

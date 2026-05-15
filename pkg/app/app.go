@@ -4,12 +4,13 @@ import (
 	"context"
 	"time"
 
+	"wakatime/pkg/db"
+
 	"github.com/go-pg/pg/v10"
 	monitor "github.com/hypnoglow/go-pg-monitor"
 	"github.com/labstack/echo/v4"
 	"github.com/vmkteam/appkit"
 	"github.com/vmkteam/embedlog"
-	"wakatime/pkg/db"
 )
 
 type Config struct {
@@ -50,7 +51,6 @@ type App struct {
 }
 
 func New(appName string, sl embedlog.Logger, cfg Config, db db.DB, dbc *pg.DB) *App {
-
 	a := &App{
 
 		appName: appName,
@@ -67,13 +67,11 @@ func New(appName string, sl embedlog.Logger, cfg Config, db db.DB, dbc *pg.DB) *
 	}
 
 	return a
-
 }
 
 // Run is a function that runs application.
 
 func (a *App) Run(ctx context.Context) error {
-
 	a.registerMetrics()
 
 	a.registerHandlers()
@@ -85,13 +83,11 @@ func (a *App) Run(ctx context.Context) error {
 	a.registerMetadata()
 
 	return a.runHTTPServer(ctx, a.cfg.Server.Host, a.cfg.Server.Port)
-
 }
 
 // Shutdown is a function that gracefully stops HTTP server.
 
 func (a *App) Shutdown(timeout time.Duration) error {
-
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 
 	defer cancel()
@@ -99,13 +95,11 @@ func (a *App) Shutdown(timeout time.Duration) error {
 	a.mon.Close()
 
 	return a.echo.Shutdown(ctx)
-
 }
 
 // registerMetadata is a function that registers meta info from service. Must be updated.
 
 func (a *App) registerMetadata() {
-
 	opts := appkit.MetadataOpts{
 
 		HasPublicAPI: true,
@@ -129,5 +123,4 @@ func (a *App) registerMetadata() {
 	md.RegisterMetrics()
 
 	a.echo.GET("/debug/metadata", md.Handler)
-
 }

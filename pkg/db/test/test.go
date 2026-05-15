@@ -7,9 +7,10 @@ import (
 	"os"
 	"testing"
 
+	"wakatime/pkg/db"
+
 	"github.com/go-pg/pg/v10"
 	"github.com/vmkteam/embedlog"
-	"wakatime/pkg/db"
 )
 
 var logger embedlog.Logger

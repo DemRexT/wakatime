@@ -3,8 +3,8 @@
     <Entities>
         <Entity Name="Stat" Namespace="common" Table="stats">
             <Attributes>
-                <Attribute Name="ID" DBName="id" DBType="int8" GoType="int64" PK="true" Nullable="Yes" Addable="true" Updatable="false" Min="0" Max="0"></Attribute>
-                <Attribute Name="UserID" DBName="user_id" DBType="int4" GoType="int" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="ID" DBName="id" DBType="int8" GoType="int64" PK="true" Nullable="Yes" Addable="true" Updatable="false" Min="0" Max="0" HasDefault="true"></Attribute>
+                <Attribute Name="UserID" DBName="user_id" DBType="int4" GoType="int" PK="false" FK="User" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
                 <Attribute Name="Period" DBName="period" DBType="text" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
                 <Attribute Name="PeriodStart" DBName="period_start" DBType="date" GoType="time.Time" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
                 <Attribute Name="PeriodEnd" DBName="period_end" DBType="date" GoType="time.Time" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
@@ -19,12 +19,12 @@
         </Entity>
         <Entity Name="User" Namespace="common" Table="users">
             <Attributes>
-                <Attribute Name="ID" DBName="id" DBType="int4" GoType="int" PK="true" Nullable="Yes" Addable="true" Updatable="false" Min="0" Max="0"></Attribute>
+                <Attribute Name="ID" DBName="id" DBType="int4" GoType="int" PK="true" Nullable="Yes" Addable="true" Updatable="false" Min="0" Max="0" HasDefault="true"></Attribute>
                 <Attribute Name="Username" DBName="username" DBType="text" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
                 <Attribute Name="WakatimeLogin" DBName="wakatime_login" DBType="text" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
                 <Attribute Name="WakatimeToken" DBName="wakatime_token" DBType="bytea" GoType="[]byte" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
                 <Attribute Name="StatusID" DBName="status_id" DBType="int4" GoType="int" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
-                <Attribute Name="CreatedAt" DBName="created_at" DBType="timestamptz" GoType="time.Time" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="CreatedAt" DBName="created_at" DBType="timestamptz" GoType="time.Time" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0" HasDefault="true"></Attribute>
                 <Attribute Name="LastSyncedAt" DBName="last_synced_at" DBType="timestamptz" GoType="*time.Time" PK="false" Nullable="Yes" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
                 <Attribute Name="LastSyncError" DBName="last_sync_error" DBType="text" GoType="*string" PK="false" Nullable="Yes" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
             </Attributes>

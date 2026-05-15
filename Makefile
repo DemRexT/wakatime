@@ -10,13 +10,9 @@ endif
 
 LINT_VERSION := v2.8.0
 
-MAIN := ${NAME}/cmd/${NAME}
+NAME := wakatime
 
-export PGDATABASE
-export PGHOST
-export PGPORT
-export PGUSER
-export PGPASSWORD
+MAIN := ./cmd/${NAME}
 
 .PHONY: *
 
@@ -57,7 +53,7 @@ run:
 
 generate:
 	@go generate ./pkg/rpc
-	@go generate ./pkg/vt
+	#@go generate ./pkg/vt
 
 test:
 	@echo "Running tests"
@@ -80,25 +76,16 @@ db:
 db-test:
 	@$(MAKE) --no-print-directory db PGDATABASE=${TEST_PGDATABASE}
 
-NS := "NONE"
+NS := "common"
 
 mfd-xml:
-	@mfd-generator xml -c "postgres://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE)?sslmode=disable" -m ./docs/model/$(NAME).mfd
+	@mfd-generator xml -c "postgres://$(PGUSER):$(PGPASSWORD)@$(PGHOST):$(PGPORT)/$(PGDATABASE)?sslmode=disable" -m ./docs/model/$(NAME).mfd -t public.*
 mfd-model:
 	@mfd-generator model -m ./docs/model/$(NAME).mfd -p db -o ./pkg/db
 mfd-repo: --check-ns
 	@mfd-generator repo -m ./docs/model/$(NAME).mfd -p db -o ./pkg/db -n $(NS)
 mfd-db-test:
 	@mfd-generator dbtest -m docs/model/$(NAME).mfd -o ./pkg/db/test -x $(NAME)/pkg/db
-mfd-vt-xml:
-	@mfd-generator xml-vt -m ./docs/model/$(NAME).mfd
-mfd-vt-rpc: --check-ns
-	@mfd-generator vt -m docs/model/$(NAME).mfd -o pkg/vt -p vt -x $(NAME)/pkg/db -n $(NS)
-mfd-xml-lang:
-	#TODO: add namespaces support for xml-lang command
-	@mfd-generator xml-lang  -m ./docs/model/$(NAME).mfd
-mfd-vt-template: --check-ns type-script-client
-	@mfd-generator template -m docs/model/$(NAME).mfd  -o ../gold-vt/ -n $(NS)
 
 type-script-client: generate
 	@go run $(GOFLAGS) $(MAIN) -config=cfg/local.toml -ts_client > ../gold-vt/src/services/api/factory.ts

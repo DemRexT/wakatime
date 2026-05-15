@@ -23,9 +23,11 @@ func NewCommonRepo(db orm.DB) CommonRepo {
 			Tables.User.Name: {StatusFilter},
 		},
 		sort: map[string][]SortField{
-			Tables.User.Name: {{Column: Columns.User.CreatedAt, Direction: SortDesc}},
+			Tables.Stat.Name: {{Column: Columns.Stat.ID, Direction: SortDesc}},
+			Tables.User.Name: {{Column: Columns.User.ID, Direction: SortDesc}},
 		},
 		join: map[string][]string{
+			Tables.Stat.Name: {TableColumns, Columns.Stat.User},
 			Tables.User.Name: {TableColumns},
 		},
 	}
@@ -48,6 +50,84 @@ func (cr CommonRepo) WithEnabledOnly() CommonRepo {
 	cr.filters = f
 
 	return cr
+}
+
+/*** Stat ***/
+
+// FullStat returns full joins with all columns
+func (cr CommonRepo) FullStat() OpFunc {
+	return WithColumns(cr.join[Tables.Stat.Name]...)
+}
+
+// DefaultStatSort returns default sort.
+func (cr CommonRepo) DefaultStatSort() OpFunc {
+	return WithSort(cr.sort[Tables.Stat.Name]...)
+}
+
+// StatByID is a function that returns Stat by ID(s) or nil.
+func (cr CommonRepo) StatByID(ctx context.Context, id int64, ops ...OpFunc) (*Stat, error) {
+	return cr.OneStat(ctx, &StatSearch{ID: &id}, ops...)
+}
+
+// OneStat is a function that returns one Stat by filters. It could return pg.ErrMultiRows.
+func (cr CommonRepo) OneStat(ctx context.Context, search *StatSearch, ops ...OpFunc) (*Stat, error) {
+	obj := &Stat{}
+	err := buildQuery(ctx, cr.db, obj, search, cr.filters[Tables.Stat.Name], PagerTwo, ops...).Select()
+
+	if errors.Is(err, pg.ErrMultiRows) {
+		return nil, err
+	} else if errors.Is(err, pg.ErrNoRows) {
+		return nil, nil
+	}
+
+	return obj, err
+}
+
+// StatsByFilters returns Stat list.
+func (cr CommonRepo) StatsByFilters(ctx context.Context, search *StatSearch, pager Pager, ops ...OpFunc) (stats []Stat, err error) {
+	err = buildQuery(ctx, cr.db, &stats, search, cr.filters[Tables.Stat.Name], pager, ops...).Select()
+	return
+}
+
+// CountStats returns count
+func (cr CommonRepo) CountStats(ctx context.Context, search *StatSearch, ops ...OpFunc) (int, error) {
+	return buildQuery(ctx, cr.db, &Stat{}, search, cr.filters[Tables.Stat.Name], PagerOne, ops...).Count()
+}
+
+// AddStat adds Stat to DB.
+func (cr CommonRepo) AddStat(ctx context.Context, stat *Stat, ops ...OpFunc) (*Stat, error) {
+	q := cr.db.ModelContext(ctx, stat)
+	applyOps(q, ops...)
+	_, err := q.Insert()
+
+	return stat, err
+}
+
+// UpdateStat updates Stat in DB.
+func (cr CommonRepo) UpdateStat(ctx context.Context, stat *Stat, ops ...OpFunc) (bool, error) {
+	q := cr.db.ModelContext(ctx, stat).WherePK()
+	if len(ops) == 0 {
+		q = q.ExcludeColumn(Columns.Stat.ID)
+	}
+	applyOps(q, ops...)
+	res, err := q.Update()
+	if err != nil {
+		return false, err
+	}
+
+	return res.RowsAffected() > 0, err
+}
+
+// DeleteStat deletes Stat from DB.
+func (cr CommonRepo) DeleteStat(ctx context.Context, id int64) (deleted bool, err error) {
+	stat := &Stat{ID: id}
+
+	res, err := cr.db.ModelContext(ctx, stat).WherePK().Delete()
+	if err != nil {
+		return false, err
+	}
+
+	return res.RowsAffected() > 0, err
 }
 
 /*** User ***/
@@ -95,9 +175,6 @@ func (cr CommonRepo) CountUsers(ctx context.Context, search *UserSearch, ops ...
 // AddUser adds User to DB.
 func (cr CommonRepo) AddUser(ctx context.Context, user *User, ops ...OpFunc) (*User, error) {
 	q := cr.db.ModelContext(ctx, user)
-	if len(ops) == 0 {
-		q = q.ExcludeColumn(Columns.User.CreatedAt)
-	}
 	applyOps(q, ops...)
 	_, err := q.Insert()
 
@@ -108,7 +185,7 @@ func (cr CommonRepo) AddUser(ctx context.Context, user *User, ops ...OpFunc) (*U
 func (cr CommonRepo) UpdateUser(ctx context.Context, user *User, ops ...OpFunc) (bool, error) {
 	q := cr.db.ModelContext(ctx, user).WherePK()
 	if len(ops) == 0 {
-		q = q.ExcludeColumn(Columns.User.CreatedAt)
+		q = q.ExcludeColumn(Columns.User.ID)
 	}
 	applyOps(q, ops...)
 	res, err := q.Update()

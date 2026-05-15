@@ -2,7 +2,7 @@
 <pgd version="1" pg-version="18" default-schema="public">
   <project name="wakatime">
     <settings>
-      <naming convention="snake_case" tables="plural"></naming>
+      <naming convention="camelCase" tables="plural"></naming>
       <defaults nullable="false" on-delete="restrict" on-update="restrict"></defaults>
     </settings>
   </project>

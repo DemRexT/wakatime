@@ -4,8 +4,10 @@ go 1.25
 
 require (
 	github.com/BurntSushi/toml v1.6.0
+	github.com/brianvoe/gofakeit/v7 v7.14.1
 	github.com/getsentry/sentry-go v0.41.0
 	github.com/go-pg/pg/v10 v10.15.0
+	github.com/go-pg/pg/v9 v9.2.1
 	github.com/go-pg/urlstruct v1.0.1
 	github.com/hypnoglow/go-pg-monitor v1.2.0
 	github.com/hypnoglow/go-pg-monitor/gopgv10 v1.2.0
@@ -25,6 +27,7 @@ require (
 	github.com/codemodus/kace v0.5.1 // indirect
 	github.com/getsentry/sentry-go/echo v0.41.0 // indirect
 	github.com/go-pg/zerochecker v0.2.0 // indirect
+	github.com/golang/protobuf v1.5.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/iancoleman/orderedmap v0.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -36,10 +39,12 @@ require (
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.67.5 // indirect
 	github.com/prometheus/procfs v0.19.2 // indirect
+	github.com/segmentio/encoding v0.1.15 // indirect
 	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/vmihailenco/bufpool v0.1.11 // indirect
+	github.com/vmihailenco/msgpack/v4 v4.3.12 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser v0.1.2 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
@@ -47,14 +52,12 @@ require (
 	github.com/vmkteam/zenrpc v1.1.1 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	golang.org/x/crypto v0.48.0 // indirect
-	golang.org/x/mod v0.33.0 // indirect
 	golang.org/x/net v0.50.0 // indirect
-	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
-	golang.org/x/tools v0.42.0 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	mellium.im/sasl v0.3.2 // indirect
 )

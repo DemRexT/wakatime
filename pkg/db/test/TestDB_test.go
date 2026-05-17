@@ -86,6 +86,10 @@ func TestCommonRepoStatUniquePeriod(t *testing.T) {
 		t.Fatalf("add user failed: %v", err)
 	}
 
+	t.Cleanup(func() {
+		_, _ = repo.DeleteUser(ctx, user.ID)
+	})
+
 	stat, err := repo.AddStat(ctx, &db.Stat{
 		UserID:              user.ID,
 		Period:              "week",
@@ -99,6 +103,10 @@ func TestCommonRepoStatUniquePeriod(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	t.Cleanup(func() {
+		_, _ = repo.DeleteStat(ctx, stat.ID)
+	})
+
 	duplicate := *stat
 	duplicate.ID = 3
 	duplicate.TotalSeconds = 2000
@@ -106,15 +114,5 @@ func TestCommonRepoStatUniquePeriod(t *testing.T) {
 	_, err = repo.AddStat(ctx, &duplicate)
 	if err == nil {
 		t.Fatal("expected duplicate stat error, got nil")
-	}
-
-	_, err = repo.DeleteStat(ctx, stat.ID)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	_, err = repo.DeleteUser(ctx, user.ID)
-	if err != nil {
-		t.Fatal(err)
 	}
 }

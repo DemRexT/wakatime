@@ -64,11 +64,11 @@ func (a *App) Run(ctx context.Context) error {
 
 func (a *App) Shutdown(timeout time.Duration) error {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	defer cancel()
 	if a.mon != nil {
 		a.mon.Close()
 	}
-	defer cancel()
-	a.mon.Close()
+
 	return a.echo.Shutdown(ctx)
 }
 

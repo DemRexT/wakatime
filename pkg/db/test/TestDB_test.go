@@ -66,6 +66,9 @@ func TestCommonRepoUserInsertGetDelete(t *testing.T) {
 }
 
 func TestCommonRepoStatUniquePeriod(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skip db test in short mode")
+	}
 	ctx := context.Background()
 	dbo, err := setup()
 	if err != nil {

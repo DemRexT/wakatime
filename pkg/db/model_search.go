@@ -55,7 +55,7 @@ type Searcher interface {
 type StatSearch struct {
 	search
 
-	ID                  *int64
+	ID                  *int
 	UserID              *int
 	Period              *string
 	PeriodStart         *time.Time
@@ -63,7 +63,7 @@ type StatSearch struct {
 	TotalSeconds        *int64
 	DailyAverageSeconds *int
 	FetchedAt           *time.Time
-	IDs                 []int64
+	IDs                 []int
 	PeriodILike         *string
 }
 

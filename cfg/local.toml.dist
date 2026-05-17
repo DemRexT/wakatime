@@ -9,5 +9,5 @@ User            = "postgres"
 Database        = "wakatime"
 Password        = ""
 PoolSize        = 5
-ApplicationName = "apisrv"
+ApplicationName = "wakatime"
 

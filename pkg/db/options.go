@@ -20,7 +20,7 @@ const (
 )
 
 var (
-	StatusFilter        = Filter{Field: Columns.User.StatusID, Value: []int{StatusEnabled, StatusDisabled, StatusDeleted}, SearchType: SearchTypeArray}
+	StatusFilter        = Filter{Field: Columns.User.StatusID, Value: []int{StatusEnabled, StatusDisabled}, SearchType: SearchTypeArray}
 	StatusEnabledFilter = Filter{Field: Columns.User.StatusID, Value: []int{StatusEnabled}, SearchType: SearchTypeArray}
 )
 

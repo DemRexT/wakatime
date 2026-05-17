@@ -2,7 +2,7 @@
 NAME := wakatime
 
 # local database connection settings
-TEST_PGDATABASE ?= test-wakatime
+TEST_PGDATABASE ?= wakatime
 
 PGDATABASE ?= wakatime
 PGHOST ?= localhost

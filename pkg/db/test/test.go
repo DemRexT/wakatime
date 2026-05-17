@@ -51,9 +51,9 @@ func setup() (*pg.DB, error) {
 	var (
 		pghost = getenv("PGHOST", "localhost")
 		pgport = getenv("PGPORT", "5432")
-		pgdb   = getenv("PGDATABASE", "test-wakatime")
+		pgdb   = getenv("PGDATABASE", "wakatime")
 		pguser = getenv("PGUSER", "postgres")
-		pgpass = getenv("PGPASSWORD", "postgres")
+		pgpass = getenv("PGPASSWORD", "123")
 	)
 
 	url := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=disable", pguser, pgpass, net.JoinHostPort(pghost, pgport), pgdb)

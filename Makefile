@@ -34,6 +34,7 @@ show-env:
 tools:
 	@go install github.com/vmkteam/mfd-generator@latest
 	@go install github.com/vmkteam/pgmigrator@latest
+	@go install github.com/vmkteam/zenrpc/v2/zenrpc@latest
 	@go install github.com/vmkteam/colgen/cmd/colgen@latest
 	@curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin ${LINT_VERSION}
 
@@ -86,10 +87,6 @@ mfd-repo: --check-ns
 	@mfd-generator repo -m ./docs/model/$(NAME).mfd -p db -o ./pkg/db -n $(NS)
 mfd-db-test:
 	@mfd-generator dbtest -m docs/model/$(NAME).mfd -o ./pkg/db/test -x $(NAME)/pkg/db
-
-type-script-client: generate
-	@go run $(GOFLAGS) $(MAIN) -config=cfg/local.toml -ts_client > ../gold-vt/src/services/api/factory.ts
-
 
 --check-ns:
 ifeq ($(NS),"NONE")

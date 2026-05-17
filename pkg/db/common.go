@@ -24,7 +24,7 @@ func NewCommonRepo(db orm.DB) CommonRepo {
 		},
 		sort: map[string][]SortField{
 			Tables.Stat.Name: {{Column: Columns.Stat.ID, Direction: SortDesc}},
-			Tables.User.Name: {{Column: Columns.User.ID, Direction: SortDesc}},
+			Tables.User.Name: {{Column: Columns.User.CreatedAt, Direction: SortDesc}},
 		},
 		join: map[string][]string{
 			Tables.Stat.Name: {TableColumns, Columns.Stat.User},
@@ -65,7 +65,7 @@ func (cr CommonRepo) DefaultStatSort() OpFunc {
 }
 
 // StatByID is a function that returns Stat by ID(s) or nil.
-func (cr CommonRepo) StatByID(ctx context.Context, id int64, ops ...OpFunc) (*Stat, error) {
+func (cr CommonRepo) StatByID(ctx context.Context, id int, ops ...OpFunc) (*Stat, error) {
 	return cr.OneStat(ctx, &StatSearch{ID: &id}, ops...)
 }
 
@@ -119,7 +119,7 @@ func (cr CommonRepo) UpdateStat(ctx context.Context, stat *Stat, ops ...OpFunc) 
 }
 
 // DeleteStat deletes Stat from DB.
-func (cr CommonRepo) DeleteStat(ctx context.Context, id int64) (deleted bool, err error) {
+func (cr CommonRepo) DeleteStat(ctx context.Context, id int) (deleted bool, err error) {
 	stat := &Stat{ID: id}
 
 	res, err := cr.db.ModelContext(ctx, stat).WherePK().Delete()
@@ -175,6 +175,9 @@ func (cr CommonRepo) CountUsers(ctx context.Context, search *UserSearch, ops ...
 // AddUser adds User to DB.
 func (cr CommonRepo) AddUser(ctx context.Context, user *User, ops ...OpFunc) (*User, error) {
 	q := cr.db.ModelContext(ctx, user)
+	if len(ops) == 0 {
+		q = q.ExcludeColumn(Columns.User.CreatedAt)
+	}
 	applyOps(q, ops...)
 	_, err := q.Insert()
 
@@ -185,7 +188,7 @@ func (cr CommonRepo) AddUser(ctx context.Context, user *User, ops ...OpFunc) (*U
 func (cr CommonRepo) UpdateUser(ctx context.Context, user *User, ops ...OpFunc) (bool, error) {
 	q := cr.db.ModelContext(ctx, user).WherePK()
 	if len(ops) == 0 {
-		q = q.ExcludeColumn(Columns.User.ID)
+		q = q.ExcludeColumn(Columns.User.ID, Columns.User.CreatedAt)
 	}
 	applyOps(q, ops...)
 	res, err := q.Update()

@@ -12,68 +12,68 @@
   <sequences></sequences>
   <schema name="public">
     <table name="users">
-      <column name="id" type="integer" nullable="false">
+      <column name="userId" type="integer" nullable="false">
         <identity generated="by-default"></identity>
       </column>
       <column name="username" type="text" nullable="false"></column>
-      <column name="wakatime_login" type="text" nullable="false"></column>
-      <column name="wakatime_token" type="bytea" nullable="false"></column>
-      <column name="status_id" type="integer" nullable="false"></column>
-      <column name="created_at" type="timestamptz" nullable="false" default="now()"></column>
-      <column name="last_synced_at" type="timestamptz"></column>
-      <column name="last_sync_error" type="text"></column>
+      <column name="wakatimeLogin" type="text" nullable="false"></column>
+      <column name="wakatimeToken" type="bytea" nullable="false"></column>
+      <column name="statusId" type="integer" nullable="false"></column>
+      <column name="createdAt" type="timestamptz" nullable="false" default="now()"></column>
+      <column name="lastSyncedAt" type="timestamptz"></column>
+      <column name="lastSyncError" type="text"></column>
       <pk name="pk_users">
-        <column name="id"></column>
+        <column name="userId"></column>
       </pk>
       <fk name="fk_users_1" to-table="statuses" on-delete="restrict" on-update="restrict">
-        <column name="status_id" references="id"></column>
+        <column name="statusId" references="statusId"></column>
       </fk>
     </table>
     <table name="stats">
-      <column name="id" type="bigint" nullable="false">
+      <column name="statId" type="integer" nullable="false">
         <identity generated="by-default"></identity>
       </column>
-      <column name="user_id" type="int" nullable="false"></column>
+      <column name="userId" type="integer" nullable="false"></column>
       <column name="period" type="text" nullable="false"></column>
-      <column name="period_start" type="date" nullable="false"></column>
-      <column name="period_end" type="date" nullable="false"></column>
-      <column name="total_seconds" type="bigint" nullable="false"></column>
-      <column name="daily_average_seconds" type="integer" nullable="false"></column>
-      <column name="fetched_at" type="timestamptz" nullable="false"></column>
+      <column name="periodStart" type="date" nullable="false"></column>
+      <column name="periodEnd" type="date" nullable="false"></column>
+      <column name="totalSeconds" type="bigint" nullable="false"></column>
+      <column name="dailyAverageSeconds" type="integer" nullable="false"></column>
+      <column name="fetchedAt" type="timestamptz" nullable="false"></column>
       <pk name="pk_stats">
-        <column name="id"></column>
+        <column name="statId"></column>
       </pk>
       <fk name="fk_stat_1" to-table="users" on-delete="restrict" on-update="restrict">
-        <column name="user_id" references="id"></column>
+        <column name="userId" references="userId"></column>
       </fk>
     </table>
     <table name="statuses">
-      <column name="id" type="integer" nullable="false">
+      <column name="statusId" type="integer" nullable="false">
         <identity generated="by-default"></identity>
       </column>
       <column name="alias" type="text" nullable="false"></column>
       <column name="title" type="text" nullable="false"></column>
       <pk name="pk_statuses">
-        <column name="id"></column>
+        <column name="statusId"></column>
       </pk>
     </table>
-    <index name="uq_stats_period" table="stats" unique="true" using="btree">
-      <column name="period"></column>
-      <column name="user_id"></column>
-      <column name="period_end"></column>
-    </index>
-    <index name="ix_stats_user_id" table="stats" using="btree">
-      <column name="user_id"></column>
-      <column name="fetched_at" order="desc"></column>
-    </index>
     <index name="uq_statuses_alias" table="statuses" unique="true" using="btree">
       <column name="alias"></column>
     </index>
+    <index name="uq_stats_period" table="stats" unique="true" using="btree">
+      <column name="period"></column>
+      <column name="userId"></column>
+      <column name="periodEnd"></column>
+    </index>
+    <index name="ix_stats_user_id" table="stats" using="btree">
+      <column name="userId"></column>
+      <column name="fetchedAt" order="desc"></column>
+    </index>
     <index name="uq_users_wakatime_login" table="users" unique="true" using="btree">
-      <column name="wakatime_login"></column>
+      <column name="wakatimeLogin"></column>
     </index>
     <index name="ix_users_status_id" table="users" using="btree">
-      <column name="status_id"></column>
+      <column name="statusId"></column>
     </index>
   </schema>
   <functions></functions>

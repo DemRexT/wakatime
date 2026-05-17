@@ -1,4 +1,4 @@
-include Makefile.mk
+-include Makefile.mk
 
 GOFLAGS=-mod=vendor
 

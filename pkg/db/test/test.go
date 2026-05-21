@@ -33,7 +33,6 @@ func Setup(t *testing.T) (db.DB, embedlog.Logger) {
 		}
 		t.Fatal(err)
 	}
-
 	// Cleanup after tests.
 	if t != nil {
 		t.Cleanup(func() {
@@ -42,7 +41,6 @@ func Setup(t *testing.T) (db.DB, embedlog.Logger) {
 			}
 		})
 	}
-
 	logger = embedlog.NewLogger(true, true)
 	return db.New(conn), logger
 }
@@ -55,19 +53,15 @@ func setup() (*pg.DB, error) {
 		pguser = getenv("PGUSER", "postgres")
 		pgpass = getenv("PGPASSWORD", "123")
 	)
-
 	url := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=disable", pguser, pgpass, net.JoinHostPort(pghost, pgport), pgdb)
-
 	cfg, err := pg.ParseURL(url)
 	if err != nil {
 		return nil, err
 	}
 	conn := pg.Connect(cfg)
-
 	if r := getenv("DB_LOG_QUERY", "false"); r == "true" {
 		conn.AddQueryHook(testDBLogQuery{})
 	}
-
 	return conn, nil
 }
 

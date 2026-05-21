@@ -120,6 +120,9 @@ func TestCommonRepoStatUniquePeriod(t *testing.T) {
 }
 
 func TestUpdateUserDoesNotMutateID(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skip db test in short mode")
+	}
 	ctx := context.Background()
 	dbo, _ := Setup(t)
 	repo := db.NewCommonRepo(dbo.DB)
@@ -168,6 +171,9 @@ func TestUpdateUserDoesNotMutateID(t *testing.T) {
 }
 
 func TestWithEnabledOnlyHidesDisabled(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skip db test in short mode")
+	}
 	ctx := context.Background()
 	dbo, _ := Setup(t)
 	repo := db.NewCommonRepo(dbo.DB)
@@ -213,6 +219,9 @@ func TestWithEnabledOnlyHidesDisabled(t *testing.T) {
 }
 
 func TestUpdateStatDoesNotMutateID(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skip db test in short mode")
+	}
 	ctx := context.Background()
 	dbo, _ := Setup(t)
 	repo := db.NewCommonRepo(dbo.DB)

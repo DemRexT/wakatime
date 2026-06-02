@@ -2,6 +2,9 @@ package rpc
 
 import (
 	"context"
+	"strings"
+	"time"
+
 	"github.com/vmkteam/zenrpc/v2"
 )
 
@@ -13,13 +16,6 @@ func NewWakaTimeService() *WakaTimeService {
 	return &WakaTimeService{}
 }
 
-type User struct {
-	ID        int
-	Username  string
-	SecretKey string
-	Status    string
-}
-
 type RegisterResult struct {
 	ID       int    `json:"id"`
 	Username string `json:"username"`
@@ -28,11 +24,11 @@ type RegisterResult struct {
 
 type TopResult struct {
 	Period       string    `json:"period"`
-	PeriodStart  string    `json:"periodStart"`
-	PeriodEnd    string    `json:"periodEnd"`
+	PeriodStart  time.Time `json:"periodStart"`
+	PeriodEnd    time.Time `json:"periodEnd"`
 	TotalSeconds int       `json:"totalSeconds"`
 	Items        []TopItem `json:"items"`
-	FetchedAt    string    `json:"fetchedAt"`
+	FetchedAt    time.Time `json:"fetchedAt"`
 }
 
 type TopItem struct {
@@ -40,23 +36,29 @@ type TopItem struct {
 	Username string `json:"username"`
 }
 
-func (s *WakaTimeService) Register(ctx context.Context, username, secretKey string) (*RegisterResult, error) {
-	if username == "" || secretKey[:5] == "waka_" {
-		return nil, newInternalError(ErrValidation)
+func (s WakaTimeService) Register(ctx context.Context, username, secretKey string) (*RegisterResult, error) {
+	if username == "" || !strings.HasPrefix(secretKey, "waka_") {
+		return nil, newValidationError(ErrValidation)
 	}
 
 	return &RegisterResult{
 		ID:       42,
-		Username: "Иван Иванов",
+		Username: username,
 		Status:   "enabled",
 	}, nil
 }
 
-func (s *WakaTimeService) GetTop(ctx context.Context, period string) (*TopResult, error) {
+func (s WakaTimeService) GetTop(ctx context.Context, period string) (*TopResult, error) {
+	switch period {
+	case "day", "week", "month":
+	default:
+		return nil, newValidationError(ErrValidation)
+	}
+
 	return &TopResult{
-		Period:       "week",
-		PeriodStart:  "2026-04-25",
-		PeriodEnd:    "2026-05-01",
+		Period:       period,
+		PeriodStart:  time.Date(2026, 4, 25, 0, 0, 0, 0, time.UTC),
+		PeriodEnd:    time.Date(2026, 5, 1, 0, 0, 0, 0, time.UTC),
 		TotalSeconds: 449460,
 		Items: []TopItem{
 			{
@@ -64,6 +66,6 @@ func (s *WakaTimeService) GetTop(ctx context.Context, period string) (*TopResult
 				Username: "Иван Иванов",
 			},
 		},
-		FetchedAt: "2026-05-01T12:35:00Z",
+		FetchedAt: time.Date(2026, 5, 1, 12, 35, 0, 0, time.UTC),
 	}, nil
 }

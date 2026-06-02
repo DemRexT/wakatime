@@ -11,8 +11,10 @@ import (
 )
 
 var (
-	ErrInvToken        = zenrpc.NewStringError(1001, "invalid_token")
-	ErrWakaUnavailable = zenrpc.NewStringError(1002, "wakatime_unavailabl")
+	//nolint:unused
+	ErrInvToken = zenrpc.NewStringError(1001, "invalid_token")
+	//nolint:unused
+	ErrWakaUnavailable = zenrpc.NewStringError(1002, "wakatime_unavailable")
 	ErrValidation      = zenrpc.NewStringError(1003, "validation_error")
 )
 
@@ -58,4 +60,8 @@ func New(dbo db.DB, logger embedlog.Logger, isDevel bool) *zenrpc.Server {
 //nolint:unused
 func newInternalError(err error) *zenrpc.Error {
 	return zenrpc.NewError(http.StatusInternalServerError, err)
+}
+
+func newValidationError(err error) *zenrpc.Error {
+	return zenrpc.NewError(http.StatusBadRequest, err)
 }

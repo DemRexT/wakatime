@@ -29,7 +29,7 @@ func (WakaTimeService) SMD() smd.ServiceInfo {
 						Type: smd.String,
 					},
 					{
-						Name: "secretKey",
+						Name: "secretApiKey",
 						Type: smd.String,
 					},
 				},
@@ -127,7 +127,7 @@ func (s WakaTimeService) Invoke(ctx context.Context, method string, params json.
 		}{}
 
 		if zenrpc.IsArray(params) {
-			if params, err = zenrpc.ConvertToObject([]string{"username", "secretKey"}, params); err != nil {
+			if params, err = zenrpc.ConvertToObject([]string{"username", "secretApiKey"}, params); err != nil {
 				return zenrpc.NewResponseError(nil, zenrpc.InvalidParams, "", err.Error())
 			}
 		}

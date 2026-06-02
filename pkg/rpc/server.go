@@ -3,7 +3,7 @@ package rpc
 import (
 	"net/http"
 
-	"apisrv/pkg/db"
+	"wakatime/pkg/db"
 
 	"github.com/vmkteam/embedlog"
 	zm "github.com/vmkteam/zenrpc-middleware"
@@ -21,7 +21,7 @@ var allowDebugFn = func() zm.AllowDebugFunc {
 	}
 }
 
-//go:generate go tool zenrpc
+//go:generate zenrpc
 
 // New returns new zenrpc Server.
 func New(dbo db.DB, logger embedlog.Logger, isDevel bool) *zenrpc.Server {

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pgd version="1" pg-version="18" default-schema="public">
+  <project name="wakatime">
+    <settings>
+      <naming convention="camelCase" tables="plural"></naming>
+      <defaults nullable="false" on-delete="restrict" on-update="restrict"></defaults>
+    </settings>
+  </project>
+  <roles></roles>
+  <tablespaces></tablespaces>
+  <extensions></extensions>
+  <sequences></sequences>
+  <schema name="public">
+    <table name="users">
+      <column name="userId" type="integer" nullable="false">
+        <identity generated="by-default"></identity>
+      </column>
+      <column name="username" type="text" nullable="false"></column>
+      <column name="wakatimeLogin" type="text" nullable="false"></column>
+      <column name="wakatimeToken" type="bytea" nullable="false"></column>
+      <column name="statusId" type="integer" nullable="false"></column>
+      <column name="createdAt" type="timestamptz" nullable="false" default="now()"></column>
+      <column name="lastSyncedAt" type="timestamptz"></column>
+      <column name="lastSyncError" type="text"></column>
+      <pk name="pk_users">
+        <column name="userId"></column>
+      </pk>
+      <fk name="fk_users_1" to-table="statuses" on-delete="restrict" on-update="restrict">
+        <column name="statusId" references="statusId"></column>
+      </fk>
+    </table>
+    <table name="stats">
+      <column name="statId" type="integer" nullable="false">
+        <identity generated="by-default"></identity>
+      </column>
+      <column name="userId" type="integer" nullable="false"></column>
+      <column name="period" type="text" nullable="false"></column>
+      <column name="periodStart" type="date" nullable="false"></column>
+      <column name="periodEnd" type="date" nullable="false"></column>
+      <column name="totalSeconds" type="bigint" nullable="false"></column>
+      <column name="dailyAverageSeconds" type="integer" nullable="false"></column>
+      <column name="fetchedAt" type="timestamptz" nullable="false"></column>
+      <pk name="pk_stats">
+        <column name="statId"></column>
+      </pk>
+      <fk name="fk_stat_1" to-table="users" on-delete="restrict" on-update="restrict">
+        <column name="userId" references="userId"></column>
+      </fk>
+    </table>
+    <table name="statuses">
+      <column name="statusId" type="integer" nullable="false">
+        <identity generated="by-default"></identity>
+      </column>
+      <column name="alias" type="text" nullable="false"></column>
+      <column name="title" type="text" nullable="false"></column>
+      <pk name="pk_statuses">
+        <column name="statusId"></column>
+      </pk>
+    </table>
+    <index name="uq_statuses_alias" table="statuses" unique="true" using="btree">
+      <column name="alias"></column>
+    </index>
+    <index name="uq_stats_period" table="stats" unique="true" using="btree">
+      <column name="period"></column>
+      <column name="userId"></column>
+      <column name="periodEnd"></column>
+    </index>
+    <index name="ix_stats_user_id" table="stats" using="btree">
+      <column name="userId"></column>
+      <column name="fetchedAt" order="desc"></column>
+    </index>
+    <index name="uq_users_wakatime_login" table="users" unique="true" using="btree">
+      <column name="wakatimeLogin"></column>
+    </index>
+    <index name="ix_users_status_id" table="users" using="btree">
+      <column name="statusId"></column>
+    </index>
+  </schema>
+  <functions></functions>
+  <triggers></triggers>
+  <rules></rules>
+  <policies></policies>
+  <comments></comments>
+  <layouts>
+    <layout name="Default" default="true">
+      <entity schema="public" table="users" x="-460" y="-220"></entity>
+      <entity schema="public" table="stats" x="-60" y="-120"></entity>
+      <entity schema="public" table="statuses" x="60" y="-280"></entity>
+    </layout>
+  </layouts>
+</pgd>

@@ -1,24 +1,38 @@
 <Package xmlns:xsi="" xmlns:xsd="">
     <Name>common</Name>
     <Entities>
-        <Entity Name="User" Namespace="common" Table="users">
+        <Entity Name="Stat" Namespace="common" Table="stats">
             <Attributes>
-                <Attribute Name="ID" DBName="userId" DBType="int4" GoType="int" PK="true" Nullable="Yes" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
-                <Attribute Name="CreatedAt" DBName="createdAt" DBType="timestamptz" GoType="time.Time" PK="false" Nullable="No" Addable="false" Updatable="false" Min="0" Max="0"></Attribute>
-                <Attribute Name="Login" DBName="login" DBType="varchar" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="64"></Attribute>
-                <Attribute Name="Password" DBName="password" DBType="varchar" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="64"></Attribute>
-                <Attribute Name="AuthKey" DBName="authKey" DBType="varchar" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="32"></Attribute>
-                <Attribute Name="LastActivityAt" DBName="lastActivityAt" DBType="timestamptz" GoType="*time.Time" PK="false" Nullable="Yes" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
-                <Attribute Name="StatusID" DBName="statusId" DBType="int4" GoType="int" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="ID" DBName="statId" DBType="int4" GoType="int" PK="true" Nullable="Yes" Addable="true" Updatable="false" Min="0" Max="0" HasDefault="true"></Attribute>
+                <Attribute Name="UserID" DBName="userId" DBType="int4" GoType="int" PK="false" FK="User" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="Period" DBName="period" DBType="text" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="PeriodStart" DBName="periodStart" DBType="date" GoType="time.Time" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="PeriodEnd" DBName="periodEnd" DBType="date" GoType="time.Time" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="TotalSeconds" DBName="totalSeconds" DBType="int8" GoType="int64" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="DailyAverageSeconds" DBName="dailyAverageSeconds" DBType="int4" GoType="int" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="FetchedAt" DBName="fetchedAt" DBType="timestamptz" GoType="time.Time" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
             </Attributes>
             <Searches>
                 <Search Name="IDs" AttrName="ID" SearchType="SEARCHTYPE_ARRAY"></Search>
-                <Search Name="NotID" AttrName="ID" SearchType="SEARCHTYPE_NOT_EQUALS"></Search>
-                <Search Name="LoginILike" AttrName="Login" SearchType="SEARCHTYPE_ILIKE"></Search>
-                <Search Name="PasswordILike" AttrName="Password" SearchType="SEARCHTYPE_ILIKE"></Search>
-                <Search Name="AuthKeyILike" AttrName="AuthKey" SearchType="SEARCHTYPE_ILIKE"></Search>
-                <Search Name="LastActivityAtFrom" AttrName="LastActivityAt" SearchType="SEARCHTYPE_GE"></Search>
-                <Search Name="LastActivityAtTo" AttrName="LastActivityAt" SearchType="SEARCHTYPE_LE"></Search>
+                <Search Name="PeriodILike" AttrName="Period" SearchType="SEARCHTYPE_ILIKE"></Search>
+            </Searches>
+        </Entity>
+        <Entity Name="User" Namespace="common" Table="users">
+            <Attributes>
+                <Attribute Name="ID" DBName="userId" DBType="int4" GoType="int" PK="true" Nullable="Yes" Addable="true" Updatable="false" Min="0" Max="0" HasDefault="true"></Attribute>
+                <Attribute Name="Username" DBName="username" DBType="text" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="WakatimeLogin" DBName="wakatimeLogin" DBType="text" GoType="string" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="WakatimeToken" DBName="wakatimeToken" DBType="bytea" GoType="[]byte" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="StatusID" DBName="statusId" DBType="int4" GoType="int" PK="false" Nullable="No" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="CreatedAt" DBName="createdAt" DBType="timestamptz" GoType="time.Time" PK="false" Nullable="No" Addable="false" Updatable="false" Min="0" Max="0" HasDefault="true"></Attribute>
+                <Attribute Name="LastSyncedAt" DBName="lastSyncedAt" DBType="timestamptz" GoType="*time.Time" PK="false" Nullable="Yes" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+                <Attribute Name="LastSyncError" DBName="lastSyncError" DBType="text" GoType="*string" PK="false" Nullable="Yes" Addable="true" Updatable="true" Min="0" Max="0"></Attribute>
+            </Attributes>
+            <Searches>
+                <Search Name="IDs" AttrName="ID" SearchType="SEARCHTYPE_ARRAY"></Search>
+                <Search Name="UsernameILike" AttrName="Username" SearchType="SEARCHTYPE_ILIKE"></Search>
+                <Search Name="WakatimeLoginILike" AttrName="WakatimeLogin" SearchType="SEARCHTYPE_ILIKE"></Search>
+                <Search Name="LastSyncErrorILike" AttrName="LastSyncError" SearchType="SEARCHTYPE_ILIKE"></Search>
             </Searches>
         </Entity>
     </Entities>

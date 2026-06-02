@@ -1,10 +1,10 @@
 # project service name
-NAME := apisrv
+NAME := wakatime
 
 # local database connection settings
-TEST_PGDATABASE ?= test-apisrv
+TEST_PGDATABASE ?= wakatime
 
-PGDATABASE ?= apisrv
+PGDATABASE ?= wakatime
 PGHOST ?= localhost
 PGPORT ?= 5432
 PGUSER ?= postgres

@@ -6,13 +6,12 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 
-	"apisrv/pkg/rpc"
+	"wakatime/pkg/rpc"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/vmkteam/appkit"
 	"github.com/vmkteam/rpcgen/v2"
-	"github.com/vmkteam/rpcgen/v2/typescript"
 	"github.com/vmkteam/zenrpc/v2"
 )
 
@@ -65,16 +64,6 @@ func (a *App) registerAPIHandlers() {
 
 	a.echo.Any("/v1/rpc/", appkit.EchoHandler(appkit.XRequestID(srv)))
 	a.echo.Any("/v1/rpc/doc/", appkit.EchoHandlerFunc(zenrpc.SMDBoxHandler))
-	a.echo.Any("/v1/rpc/openrpc.json", appkit.EchoHandlerFunc(rpcgen.Handler(gen.OpenRPC("apisrv", "http://localhost:8075/v1/rpc"))))
+	a.echo.Any("/v1/rpc/openrpc.json", appkit.EchoHandlerFunc(rpcgen.Handler(gen.OpenRPC(a.appName, "http://localhost:8075/v1/rpc"))))
 	a.echo.Any("/v1/rpc/api.ts", appkit.EchoHandlerFunc(rpcgen.Handler(gen.TSClient(nil))))
-}
-
-// registerVTApiHandlers registers vt rpc server.
-func (a *App) registerVTApiHandlers() {
-	gen := rpcgen.FromSMD(a.vtsrv.SMD())
-	tsSettings := typescript.Settings{ExcludedNamespace: []string{NSVFS}, WithClasses: true}
-
-	a.echo.Any("/v1/vt/", appkit.EchoHandler(appkit.XRequestID(a.vtsrv)))
-	a.echo.Any("/v1/vt/doc/", appkit.EchoHandlerFunc(zenrpc.SMDBoxHandler))
-	a.echo.Any("/v1/vt/api.ts", appkit.EchoHandlerFunc(rpcgen.Handler(gen.TSCustomClient(tsSettings))))
 }

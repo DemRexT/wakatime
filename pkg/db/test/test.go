@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"apisrv/pkg/db"
+	"wakatime/pkg/db"
 
 	"github.com/go-pg/pg/v10"
 	"github.com/vmkteam/embedlog"
@@ -33,7 +33,6 @@ func Setup(t *testing.T) (db.DB, embedlog.Logger) {
 		}
 		t.Fatal(err)
 	}
-
 	// Cleanup after tests.
 	if t != nil {
 		t.Cleanup(func() {
@@ -42,7 +41,6 @@ func Setup(t *testing.T) (db.DB, embedlog.Logger) {
 			}
 		})
 	}
-
 	logger = embedlog.NewLogger(true, true)
 	return db.New(conn), logger
 }
@@ -51,23 +49,19 @@ func setup() (*pg.DB, error) {
 	var (
 		pghost = getenv("PGHOST", "localhost")
 		pgport = getenv("PGPORT", "5432")
-		pgdb   = getenv("PGDATABASE", "test-apisrv")
+		pgdb   = getenv("PGDATABASE", "wakatime")
 		pguser = getenv("PGUSER", "postgres")
-		pgpass = getenv("PGPASSWORD", "postgres")
+		pgpass = getenv("PGPASSWORD", "123")
 	)
-
 	url := fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=disable", pguser, pgpass, net.JoinHostPort(pghost, pgport), pgdb)
-
 	cfg, err := pg.ParseURL(url)
 	if err != nil {
 		return nil, err
 	}
 	conn := pg.Connect(cfg)
-
 	if r := getenv("DB_LOG_QUERY", "false"); r == "true" {
 		conn.AddQueryHook(testDBLogQuery{})
 	}
-
 	return conn, nil
 }
 

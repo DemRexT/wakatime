@@ -1,0 +1,12 @@
+<Project xmlns:xsi="" xmlns:xsd="">
+    <Name>wakatime.mfd</Name>
+    <PackageNames>
+        <string>common</string>
+    </PackageNames>
+    <Languages>
+        <string>en</string>
+    </Languages>
+    <GoPGVer>10</GoPGVer>
+    <CustomTypes></CustomTypes>
+    <TableMapping></TableMapping>
+</Project>

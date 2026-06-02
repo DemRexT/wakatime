@@ -36,8 +36,8 @@ type TopItem struct {
 	Username string `json:"username"`
 }
 
-func (s WakaTimeService) Register(ctx context.Context, username, secretKey string) (*RegisterResult, error) {
-	if username == "" || !strings.HasPrefix(secretKey, "waka_") {
+func (s WakaTimeService) Register(ctx context.Context, username, secretAPIKey string) (*RegisterResult, error) {
+	if username == "" || !strings.HasPrefix(secretAPIKey, "waka_") {
 		return nil, newValidationError(ErrValidation)
 	}
 
@@ -50,7 +50,7 @@ func (s WakaTimeService) Register(ctx context.Context, username, secretKey strin
 
 func (s WakaTimeService) GetTop(ctx context.Context, period string) (*TopResult, error) {
 	switch period {
-	case "day", "week", "month":
+	case "week", "month", "all":
 	default:
 		return nil, newValidationError(ErrValidation)
 	}

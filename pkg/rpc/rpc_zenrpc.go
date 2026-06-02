@@ -122,8 +122,8 @@ func (s WakaTimeService) Invoke(ctx context.Context, method string, params json.
 	switch method {
 	case RPC.WakaTimeService.Register:
 		var args = struct {
-			Username  string `json:"username"`
-			SecretKey string `json:"secretKey"`
+			Username     string `json:"username"`
+			SecretApiKey string `json:"secretApiKey"`
 		}{}
 
 		if zenrpc.IsArray(params) {
@@ -138,7 +138,7 @@ func (s WakaTimeService) Invoke(ctx context.Context, method string, params json.
 			}
 		}
 
-		resp.Set(s.Register(ctx, args.Username, args.SecretKey))
+		resp.Set(s.Register(ctx, args.Username, args.SecretApiKey))
 
 	case RPC.WakaTimeService.GetTop:
 		var args = struct {

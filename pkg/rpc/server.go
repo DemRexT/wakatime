@@ -11,8 +11,11 @@ import (
 )
 
 var (
-	ErrNotImplemented = zenrpc.NewStringError(http.StatusInternalServerError, "not implemented")
-	ErrInternal       = zenrpc.NewStringError(http.StatusInternalServerError, "internal error")
+	//nolint:unused
+	ErrInvToken = zenrpc.NewStringError(1001, "invalid_token")
+	//nolint:unused
+	ErrWakaUnavailable = zenrpc.NewStringError(1002, "wakatime_unavailable")
+	ErrValidation      = zenrpc.NewStringError(1003, "validation_error")
 )
 
 var allowDebugFn = func() zm.AllowDebugFunc {
@@ -48,6 +51,7 @@ func New(dbo db.DB, logger embedlog.Logger, isDevel bool) *zenrpc.Server {
 	// services
 	rpc.RegisterAll(map[string]zenrpc.Invoker{
 		// "sample": NewSampleService(db, logger),
+		"wakatime": NewWakaTimeService(),
 	})
 
 	return rpc
@@ -56,4 +60,8 @@ func New(dbo db.DB, logger embedlog.Logger, isDevel bool) *zenrpc.Server {
 //nolint:unused
 func newInternalError(err error) *zenrpc.Error {
 	return zenrpc.NewError(http.StatusInternalServerError, err)
+}
+
+func newValidationError(err error) *zenrpc.Error {
+	return zenrpc.NewError(http.StatusBadRequest, err)
 }
